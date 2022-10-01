@@ -3,7 +3,14 @@ using UnityEngine;
 
 public class PlayerNetwork : NetworkBehaviour
 {
-    private NetworkVariable<MyCustomData> networkNumber = new(new MyCustomData{_int = 56, _bool = true}, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    [SerializeField] private Transform spawnedObjectPrefab;
+
+    private Transform spawnedObjectTransform;
+    
+    private NetworkVariable<MyCustomData> networkNumber = new(
+        new MyCustomData{_int = 56, _bool = true},
+        NetworkVariableReadPermission.Everyone, 
+        NetworkVariableWritePermission.Owner);
 
     public struct MyCustomData : INetworkSerializable
     {
@@ -28,6 +35,17 @@ public class PlayerNetwork : NetworkBehaviour
     void Update()
     {
         if (!IsOwner) return;
+
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            spawnedObjectTransform = Instantiate(spawnedObjectPrefab);
+            spawnedObjectTransform.GetComponent<NetworkObject>().Spawn(true);
+        }
+        
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            Destroy(spawnedObjectTransform.gameObject);
+        }
 
         if (Input.GetKeyDown(KeyCode.T))
             TestClientRpc();
