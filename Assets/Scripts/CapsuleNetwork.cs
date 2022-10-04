@@ -1,9 +1,7 @@
 using System;
 using System.Linq;
 using Unity.Netcode;
-using UnityEditor;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class CapsuleNetwork : NetworkBehaviour
 {
@@ -11,6 +9,7 @@ public class CapsuleNetwork : NetworkBehaviour
 
     private void Awake()
     {
+        Debug.Log("[SETUP] Setting up NetworkList");
         playersSelectedSkins = new NetworkList<PlayerSkin>();
     }
 
@@ -34,38 +33,38 @@ public class CapsuleNetwork : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        playersSelectedSkins.OnListChanged += OnStateChanged;
-
         ulong clientId = OwnerClientId;
-        
-        Debug.Log("[CapsuleNetwork] ClientID: " + clientId);
+        Debug.Log("[OnNetworkSpawn] ClientID: " + clientId);
         
         addPlayerSkinServerRpc(clientId);
+       
         updateSkin();
     }
 
-    public override void OnNetworkDespawn()
-    {
-        playersSelectedSkins.OnListChanged -= OnStateChanged;
-    }
+    // public override void OnNetworkDespawn()
+    // {
+    //     // playersSelectedSkins.OnListChanged -= OnStateChanged;
+    // }
     
-    public void OnStateChanged(NetworkListEvent<PlayerSkin> value)
-    {
-        Debug.Log("OnStateChanged: ClientId: " + OwnerClientId);
-        
-        updateSkin();
-    }
+    // public void OnStateChanged(NetworkListEvent<PlayerSkin> value)
+    // {
+    //     // Debug.Log("[OnStateChanged]: ClientId: " + OwnerClientId);
+    //     //
+    //     // updateSkin();
+    // }
 
     private void updateSkin()
     {
+        Debug.Log("[UpdateSkin]: ClientId: " + OwnerClientId);
+        
         // Apply the value with our id
         foreach (PlayerSkin playerSkin in playersSelectedSkins)
         {
             if (playerSkin.clientId != OwnerClientId) 
                 continue;
-            
+
             GetComponent<MeshRenderer>().material = PlayerSkins.Instance.skins.ElementAt(playerSkin.skinIndex);
-            Debug.Log("[CapsuleNetwork] My id is " + playerSkin.clientId + " | Applied skin index " + playerSkin.skinIndex);
+            Debug.Log("[UpdateSkin] My id is " + playerSkin.clientId + " | Applied skin index " + playerSkin.skinIndex);
             break;
         }
     }
@@ -73,6 +72,8 @@ public class CapsuleNetwork : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void addPlayerSkinServerRpc(ulong clientId)
     {
+        Debug.Log("[AddPlayerSkinServerRpc]: ClientId: " + clientId);
+        
         //If there is already a skin for this client, don't add it again
         foreach (PlayerSkin playerSkin in playersSelectedSkins)
         {
@@ -80,10 +81,14 @@ public class CapsuleNetwork : NetworkBehaviour
                 return;
         }
 
+        int skinIndex = PlayerSkins.Instance.selectRandomSkinIndex(playersSelectedSkins);
+        
+        //Debug.Log("[AddPlayerSkinServerRpc]: Adding new player skin: ClientId: " + clientId + " | SkinIndex: " + skinIndex);
+        
         playersSelectedSkins.Add(new PlayerSkin
         {
             clientId = clientId,
-            skinIndex = PlayerSkins.Instance.selectRandomSkinIndex(playersSelectedSkins)
+            skinIndex = skinIndex
         });
     }
 }

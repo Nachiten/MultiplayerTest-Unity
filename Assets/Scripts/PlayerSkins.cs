@@ -24,6 +24,8 @@ public class PlayerSkins : MonoBehaviour
     
     public int selectRandomSkinIndex(NetworkList<CapsuleNetwork.PlayerSkin> playersSelectedSkins )
     {
+        Debug.Log("[AAA SelectRandomSkinIndex]: playersSelectedSkins length: " + playersSelectedSkins.Count);
+        
         // TODO - BUG - Player selected skins is always empty
 
         // Get all taken skins
@@ -31,20 +33,20 @@ public class PlayerSkins : MonoBehaviour
         
         foreach (CapsuleNetwork.PlayerSkin player in playersSelectedSkins)
         {
-            Debug.Log("[DEBUG LOG] Player: " + player.clientId + " Skin: " + player.skinIndex);
+            //Debug.Log("[DEBUG LOG] Player: " + player.clientId + " Skin: " + player.skinIndex);
             takenSkins.Add(skins[player.skinIndex]);
         }
         
         // Filter taken skins from list
         List<Material> availableSkins = skins.Where(skin => !takenSkins.Contains(skin)).ToList();
         
-        Debug.Log("AVAILABLE SKIN NAMES: ");
-        
-        // Print each available skin name
-        foreach (Material skin in availableSkins)
-        {
-            Debug.Log(skin.name);
-        }
+        // Debug.Log("AVAILABLE SKIN NAMES: ");
+        //
+        // // Print each available skin name
+        // foreach (Material skin in availableSkins)
+        // {
+        //     Debug.Log(skin.name);
+        // }
         
         // Select random skin
         int randomSkinIndex = Random.Range(0, availableSkins.Count);
