@@ -41,18 +41,6 @@ public class CapsuleNetwork : NetworkBehaviour
         updateSkin();
     }
 
-    // public override void OnNetworkDespawn()
-    // {
-    //     // playersSelectedSkins.OnListChanged -= OnStateChanged;
-    // }
-    
-    // public void OnStateChanged(NetworkListEvent<PlayerSkin> value)
-    // {
-    //     // Debug.Log("[OnStateChanged]: ClientId: " + OwnerClientId);
-    //     //
-    //     // updateSkin();
-    // }
-
     private void updateSkin()
     {
         Debug.Log("[UpdateSkin]: ClientId: " + OwnerClientId);
