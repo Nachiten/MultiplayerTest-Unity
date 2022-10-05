@@ -5,12 +5,20 @@ using UnityEngine;
 
 public class PlayerSkins : MonoBehaviour
 {
+    [SerializeField]
+    private List<Material> skins;
+
+    private List<int> takenSkins = new();
+    
     public static PlayerSkins Instance { get; private set; }
     
-    public List<Material> skins;
-
     private void Awake()
     {
+        if (skins.Count == 0)
+        {
+            Debug.LogError("No skins found!");
+        }
+        
         if (Instance == null)
         {
             Instance = this;
@@ -22,36 +30,31 @@ public class PlayerSkins : MonoBehaviour
         }
     }
     
-    public int selectRandomSkinIndex(NetworkList<CapsuleNetwork.PlayerSkin> playersSelectedSkins )
+    public int getRandomSkinIndex()
     {
-        Debug.Log("[AAA SelectRandomSkinIndex]: playersSelectedSkins length: " + playersSelectedSkins.Count);
+        // Get skins which are not taken
+        List<Material> availableSkins = skins.Where((_, index) => !takenSkins.Contains(index)).ToList();
         
-        // TODO - BUG - Player selected skins is always empty
-
-        // Get all taken skins
-        List<Material> takenSkins = new();
+        // Log available skins count
+        Debug.Log($"Available skins: {availableSkins.Count}");
         
-        foreach (CapsuleNetwork.PlayerSkin player in playersSelectedSkins)
-        {
-            //Debug.Log("[DEBUG LOG] Player: " + player.clientId + " Skin: " + player.skinIndex);
-            takenSkins.Add(skins[player.skinIndex]);
-        }
+        // Random index for available skins
+        int randomIndex = Random.Range(0, availableSkins.Count);
         
-        // Filter taken skins from list
-        List<Material> availableSkins = skins.Where(skin => !takenSkins.Contains(skin)).ToList();
+        // Choose skin from available
+        Material shosenSkin = availableSkins[randomIndex];
         
-        // Debug.Log("AVAILABLE SKIN NAMES: ");
-        //
-        // // Print each available skin name
-        // foreach (Material skin in availableSkins)
-        // {
-        //     Debug.Log(skin.name);
-        // }
+        // Choose index of that skin from original list
+        int chosenIndex = skins.IndexOf(shosenSkin);
         
-        // Select random skin
-        int randomSkinIndex = Random.Range(0, availableSkins.Count);
+        // Chosen index is added to taken skins
+        takenSkins.Add(chosenIndex);
         
-        // Index of original list, for chosen skin
-        return skins.IndexOf(availableSkins[randomSkinIndex]);
+        return chosenIndex;
+    }
+    
+    public Material getSkin(int index)
+    {
+        return skins[index];
     }
 }

@@ -1409,7 +1409,7 @@ GameObject:
   - component: {fileID: 1560392041}
   - component: {fileID: 1560392040}
   m_Layer: 0
-  m_Name: SingletonsManager
+  m_Name: PlayerSkinsManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

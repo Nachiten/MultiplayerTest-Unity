@@ -1,82 +1,94 @@
-using System;
-using System.Linq;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
 public class CapsuleNetwork : NetworkBehaviour
 {
-    private NetworkList<PlayerSkin> playersSelectedSkins;
-
-    private void Awake()
-    {
-        Debug.Log("[SETUP] Setting up NetworkList");
-        playersSelectedSkins = new NetworkList<PlayerSkin>();
-    }
-
-    public struct PlayerSkin : INetworkSerializable, IEquatable<PlayerSkin>
-    {
-        public ulong clientId;
-        public int skinIndex;
-
-        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
-        {
-            serializer.SerializeValue(ref clientId);
-            serializer.SerializeValue(ref skinIndex);
-        }
-
-        public bool Equals(PlayerSkin other)
-        {
-            return clientId == other.clientId && 
-                   skinIndex == other.skinIndex;
-        }
-    }
+    [SerializeField]
+    private TMP_Text playerIDText;
+    
+    private readonly NetworkVariable<ulong> clientId = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    private readonly NetworkVariable<int> skinIndex = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     public override void OnNetworkSpawn()
     {
-        ulong clientId = OwnerClientId;
-        Debug.Log("[OnNetworkSpawn] ClientID: " + clientId);
+        Debug.Log("[OnNetworkSpawn] ClientId: " + OwnerClientId);
         
-        addPlayerSkinServerRpc(clientId);
-       
-        updateSkin();
+        skinIndex.OnValueChanged += OnSkinIndexChange;
+        clientId.OnValueChanged += OnClientIdChange;
+        
+        if (IsOwner)
+            setup();
+        
+        applyClientId();
+        applySkinIndex();
     }
 
-    private void updateSkin()
+    public override void OnNetworkDespawn()
     {
-        Debug.Log("[UpdateSkin]: ClientId: " + OwnerClientId);
-        
-        // Apply the value with our id
-        foreach (PlayerSkin playerSkin in playersSelectedSkins)
-        {
-            if (playerSkin.clientId != OwnerClientId) 
-                continue;
-
-            GetComponent<MeshRenderer>().material = PlayerSkins.Instance.skins.ElementAt(playerSkin.skinIndex);
-            Debug.Log("[UpdateSkin] My id is " + playerSkin.clientId + " | Applied skin index " + playerSkin.skinIndex);
-            break;
-        }
+        skinIndex.OnValueChanged -= OnSkinIndexChange;
+        clientId.OnValueChanged -= OnClientIdChange;
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void addPlayerSkinServerRpc(ulong clientId)
+    private void setup()
     {
-        Debug.Log("[AddPlayerSkinServerRpc]: ClientId: " + clientId);
-        
-        //If there is already a skin for this client, don't add it again
-        foreach (PlayerSkin playerSkin in playersSelectedSkins)
-        {
-            if (playerSkin.clientId == clientId) 
-                return;
-        }
+        clientId.Value = OwnerClientId;
 
-        int skinIndex = PlayerSkins.Instance.selectRandomSkinIndex(playersSelectedSkins);
+        getPlayerSkinServerRpc(OwnerClientId);
+    }
+    
+    private void OnClientIdChange(ulong oldClientId, ulong newClientId)
+    {
+        applyClientId();
+    }
+    
+    private void OnSkinIndexChange(int oldIndex, int newIndex)
+    {
+        applySkinIndex();
+    }
+    
+    private void applyClientId()
+    {
+        Debug.Log("[ApplyClientId] ClientId: " + clientId.Value);
+        // Show client id on the text
+        playerIDText.text = clientId.Value.ToString();
+    }
+
+    private void applySkinIndex()
+    {
+        Debug.Log("[ApplySkinIndex] SkinIndex: " + skinIndex.Value);
+        // Apply the capsule material
+        GetComponent<MeshRenderer>().material = PlayerSkins.Instance.getSkin(skinIndex.Value);
+    }
+
+    // Get random skin from server
+    [ServerRpc]
+    private void getPlayerSkinServerRpc(ulong theClientId)
+    {
+        Debug.Log("[GetPlayerSkinServerRpc] ClientId: " + theClientId);
         
-        //Debug.Log("[AddPlayerSkinServerRpc]: Adding new player skin: ClientId: " + clientId + " | SkinIndex: " + skinIndex);
+        // Get assigned skin index
+        int theSkinIndex = PlayerSkins.Instance.getRandomSkinIndex();
         
-        playersSelectedSkins.Add(new PlayerSkin
+        // Client rpc is only called for the client who requested it
+        ClientRpcParams clientRpcParams = new()
         {
-            clientId = clientId,
-            skinIndex = skinIndex
-        });
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new[]{theClientId}
+            }
+        };
+        
+        // Client now applies the skin
+        applySkinClientRpc(theSkinIndex, clientRpcParams);
+    }
+    
+    [ClientRpc]
+    private void applySkinClientRpc(int newSkinIndex, ClientRpcParams clientRpcParams = default)
+    {
+        Debug.Log("[ApplySkinClientRpc] ClientId: " + OwnerClientId + " | SkinIndex: " + skinIndex.Value);
+        
+        // Set the skin index
+        skinIndex.Value = newSkinIndex;
     }
 }
