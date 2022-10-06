@@ -36,7 +36,7 @@ public class CapsuleNetwork : NetworkBehaviour
 
         getPlayerSkinServerRpc(OwnerClientId);
     }
-    
+      
     private void OnClientIdChange(ulong oldClientId, ulong newClientId)
     {
         applyClientId();
