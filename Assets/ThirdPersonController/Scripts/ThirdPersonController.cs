@@ -118,8 +118,10 @@ namespace StarterAssets
             get
             {
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
+                Debug.Log("Current device is mouse");
                 return _playerInput.currentControlScheme == "KeyboardMouse";
 #else
+                Debug.LogError("Current device is not mouse");
 				return false;
 #endif
             }
@@ -143,6 +145,7 @@ namespace StarterAssets
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
+            Debug.Log("Input device correct");
             _playerInput = GetComponent<PlayerInput>();
 #else
 			Debug.LogError( "Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
@@ -184,6 +187,9 @@ namespace StarterAssets
 
         private void LateUpdate()
         {
+            if (!IsOwner)
+                return;
+            
             CameraRotation();
         }
 
