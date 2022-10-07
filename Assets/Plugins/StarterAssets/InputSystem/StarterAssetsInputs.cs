@@ -1,3 +1,5 @@
+using System;
+using Unity.Netcode;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
@@ -5,7 +7,7 @@ using UnityEngine.InputSystem;
 
 namespace StarterAssets
 {
-	public class StarterAssetsInputs : MonoBehaviour
+	public class StarterAssetsInputs : NetworkBehaviour
 	{
 		[Header("Character Input Values")]
 		public Vector2 move;
@@ -75,6 +77,28 @@ namespace StarterAssets
 		{
 			Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
 		}
+
+		// public void Update()
+		// {
+		// 	// If you press escape, the cursor will be unlocked
+		// 	if (!Input.GetKeyDown(KeyCode.Escape)) 
+		// 		return;
+		// 	
+		// 	cursorLocked = !cursorLocked;
+		// 	SetCursorState(cursorLocked);
+		// }
+
+		// private void Start()
+		// {
+		// 	if (IsOwner) 
+		// 		return;
+		// 	
+		// 	PlayerInput playerInput = GetComponent<PlayerInput>();
+		// 	
+		// 	if (playerInput) playerInput.enabled = false;
+		// 	
+		// 	enabled = false;
+		// }
 	}
 	
 }

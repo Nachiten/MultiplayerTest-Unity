@@ -28,6 +28,8 @@ namespace StarterAssets
 
         [Tooltip("Acceleration and deceleration")]
         public float SpeedChangeRate = 10.0f;
+        [Tooltip("Mouse sensitivity")]
+        public float MouseSensitivity = 1f;
 
         public AudioClip LandingAudioClip;
         public AudioClip[] FootstepAudioClips;
@@ -146,6 +148,21 @@ namespace StarterAssets
 			Debug.LogError( "Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
 #endif
 
+            // if (_controller)
+            // {
+            //     Debug.LogError("ThirdPersonController: No CharacterController attached");
+            // }
+
+            if (!_input)
+            {
+                Debug.LogError("ThirdPersonController: No StarterAssetsInputs attached");
+            }
+
+            if (!_playerInput)
+            {
+                Debug.LogError("ThirdPersonController: No PlayerInput attached");
+            }
+
             AssignAnimationIDs();
 
             // reset our timeouts on start
@@ -202,8 +219,8 @@ namespace StarterAssets
                 //Don't multiply mouse input by Time.deltaTime;
                 float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
-                _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier;
-                _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier;
+                _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier * MouseSensitivity;
+                _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier * MouseSensitivity;
             }
 
             // clamp our rotations so our values are limited 360 degrees
@@ -217,6 +234,8 @@ namespace StarterAssets
 
         private void Move()
         {
+            //Debug.Log("Moving...");
+            
             // set target speed based on move speed, sprint speed and if sprint is pressed
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
@@ -255,6 +274,9 @@ namespace StarterAssets
             // normalise input direction
             Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
 
+            // TODO - When a user is client, this does not work
+            //Debug.Log("Input direction: " + inputDirection);
+            
             // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
             // if there is a move input rotate player when the player is moving
             if (_input.move != Vector2.zero)
@@ -361,7 +383,7 @@ namespace StarterAssets
 
         private void OnDrawGizmosSelected()
         {
-            Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
+            Color transparentGreen = new Color(0.0f, 0.0f, 0.0f, 0.35f);
             Color transparentRed = new Color(1.0f, 0.0f, 0.0f, 0.35f);
 
             if (Grounded) Gizmos.color = transparentGreen;
