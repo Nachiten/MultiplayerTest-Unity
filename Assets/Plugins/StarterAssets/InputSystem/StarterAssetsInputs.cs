@@ -25,13 +25,11 @@ namespace StarterAssets
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 		public void OnMove(InputValue value)
 		{
-			Debug.Log("OnMove: " + value.Get<Vector2>());
 			MoveInput(value.Get<Vector2>());
 		}
 
 		public void OnLook(InputValue value)
 		{
-			//Debug.Log("OnLook");
 			if(cursorInputForLook)
 			{
 				LookInput(value.Get<Vector2>());
@@ -40,13 +38,11 @@ namespace StarterAssets
 
 		public void OnJump(InputValue value)
 		{
-			Debug.Log("OnJump");
 			JumpInput(value.isPressed);
 		}
 
 		public void OnSprint(InputValue value)
 		{
-			Debug.Log("OnSprint");
 			SprintInput(value.isPressed);
 		}
 #endif
