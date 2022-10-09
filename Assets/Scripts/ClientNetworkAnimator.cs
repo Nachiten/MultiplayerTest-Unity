@@ -1,4 +1,8 @@
+#region
+
 using Unity.Netcode.Components;
+
+#endregion
 
 public class ClientNetworkAnimator : NetworkAnimator
 {

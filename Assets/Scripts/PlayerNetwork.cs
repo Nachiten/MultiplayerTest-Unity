@@ -1,5 +1,9 @@
+#region
+
 using Unity.Netcode;
 using UnityEngine;
+
+#endregion
 
 public class PlayerNetwork : NetworkBehaviour
 {
@@ -31,8 +35,8 @@ public class PlayerNetwork : NetworkBehaviour
     //         Debug.Log($"{OwnerClientId} | Network strcuct changed to {newValue._int} {newValue._bool}");
     //     };
     // }
-    
-    void Update()
+
+    private void Update()
     {
         if (!IsOwner) return;
 
@@ -52,26 +56,26 @@ public class PlayerNetwork : NetworkBehaviour
         //
         // if (Input.GetKeyDown(KeyCode.R))
         //     TestServerRpc();
-            // networkNumber.Value = new MyCustomData{_int = 100, _bool = false};
-        
-        Vector3 moveDir = new(0,0,0);
-        
+        // networkNumber.Value = new MyCustomData{_int = 100, _bool = false};
+
+        Vector3 moveDir = new(0, 0, 0);
+
         if (Input.GetKey(KeyCode.W))
             moveDir.z = 1f;
-        
+
         if (Input.GetKey(KeyCode.S))
             moveDir.z = -1f;
-        
+
         if (Input.GetKey(KeyCode.A))
             moveDir.x = -1f;
-        
+
         if (Input.GetKey(KeyCode.D))
             moveDir.x = 1f;
-        
+
         const float moveSpeed = 3f;
-        transform.position += moveDir * (Time.deltaTime * moveSpeed) ;
+        transform.position += moveDir * (Time.deltaTime * moveSpeed);
     }
-    
+
     // [ServerRpc]
     // public void TestServerRpc()
     // {

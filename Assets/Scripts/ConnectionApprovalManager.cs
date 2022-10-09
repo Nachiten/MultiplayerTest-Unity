@@ -1,19 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
+#region
+
 using Unity.Netcode;
 using UnityEngine;
+
+#endregion
 
 public class ConnectionApprovalManager : MonoBehaviour
 {
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         NetworkManager.Singleton.NetworkConfig.ConnectionApproval = true;
-        
+
         NetworkManager.Singleton.ConnectionApprovalCallback = ApprovalCheck;
     }
 
-    public void ApprovalCheck(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response)
+    public void ApprovalCheck(NetworkManager.ConnectionApprovalRequest request,
+        NetworkManager.ConnectionApprovalResponse response)
     {
         // The client identifier to be authenticated
         // var clientId = request.ClientNetworkId;
@@ -32,10 +35,10 @@ public class ConnectionApprovalManager : MonoBehaviour
 
         // Rotation to spawn the player object (if null it uses the default of Quaternion.identity)
         response.Rotation = null;
-        
+
         // Only approve if less than 5 players
         response.Approved = NetworkManager.Singleton.ConnectedClients.Count < 5;
-        
+
         // If additional approval steps are needed, set this to true until the additional steps are complete
         // once it transitions from true to false the connection approval response will be processed.
         response.Pending = false;

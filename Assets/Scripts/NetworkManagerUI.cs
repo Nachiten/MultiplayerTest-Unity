@@ -17,7 +17,9 @@ public class NetworkManagerUI : NetworkBehaviour
     [SerializeField] private TMP_Text statusText;
 
     private NetworkManager netManager;
-    
+
+    private string gameType;
+
     private void Awake()
     {
         netManager = NetworkManager.Singleton;
@@ -31,20 +33,25 @@ public class NetworkManagerUI : NetworkBehaviour
 
     private void selectServer()
     {
+        gameType = "SERVER";
         netManager.StartServer();
-        statusText.text = "SERVER" + " | ID: " + OwnerClientId;
     }
-    
+
     private void selectHost()
     {
+        gameType = "HOST";
         netManager.StartHost();
-        statusText.text = "HOST" + " | ID: " + OwnerClientId;
     }
-    
+
     private void selectClient()
     {
+        gameType = "CLIENT";
         netManager.StartClient();
-        statusText.text = "CLIENT" + " | ID: " + OwnerClientId;
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        statusText.text = gameType + " | ID: " + OwnerClientId;
     }
 
     private void Start()
