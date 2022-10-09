@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 #endregion
 
-public class NetworkManagerUI : MonoBehaviour
+public class NetworkManagerUI : NetworkBehaviour
 {
     [SerializeField] private Button serverBtn;
     [SerializeField] private Button hostBtn;
@@ -32,21 +32,21 @@ public class NetworkManagerUI : MonoBehaviour
     private void selectServer()
     {
         netManager.StartServer();
-        statusText.text = "[SERVER]";
+        statusText.text = "SERVER" + " | ID: " + OwnerClientId;
     }
     
     private void selectHost()
     {
         netManager.StartHost();
-        statusText.text = "[HOST]";
+        statusText.text = "HOST" + " | ID: " + OwnerClientId;
     }
     
     private void selectClient()
     {
         netManager.StartClient();
-        statusText.text = "[CLIENT]";
+        statusText.text = "CLIENT" + " | ID: " + OwnerClientId;
     }
-    
+
     private void Start()
     {
         if (Application.isEditor) return;

@@ -2243,7 +2243,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224130951485110974, guid: 9ed2a051c32b4fe47a5e4fb95c20b03f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -0.000061035156
       objectReference: {fileID: 0}
     - target: {fileID: 224166536479716514, guid: 9ed2a051c32b4fe47a5e4fb95c20b03f, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2626,6 +2626,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1924951461}
   - component: {fileID: 1924951462}
+  - component: {fileID: 1924951463}
   m_Layer: 5
   m_Name: NetworkManagerUI
   m_TagString: Untagged
@@ -2673,6 +2674,22 @@ MonoBehaviour:
   hostBtn: {fileID: 1791403843}
   clientBtn: {fileID: 1440253656}
   statusText: {fileID: 764319731}
+--- !u!114 &1924951463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924951460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2568854503
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &1976757427
 GameObject:
   m_ObjectHideFlags: 0
