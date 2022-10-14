@@ -23,8 +23,7 @@ public class CapsuleNetwork : NetworkBehaviour
         skinIndex.OnValueChanged += OnSkinIndexChange;
         clientId.OnValueChanged += OnClientIdChange;
 
-        if (IsOwner)
-            setup();
+        if (IsOwner) setup();
 
         applyClientId();
         applySkinIndex();
@@ -89,6 +88,7 @@ public class CapsuleNetwork : NetworkBehaviour
         applySkinClientRpc(theSkinIndex, clientRpcParams);
     }
 
+    // Apply selected skin on client
     [ClientRpc]
     private void applySkinClientRpc(int newSkinIndex, ClientRpcParams clientRpcParams = default)
     {

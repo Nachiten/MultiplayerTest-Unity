@@ -1079,7 +1079,6 @@ GameObject:
   - component: {fileID: 655999202}
   - component: {fileID: 655999201}
   - component: {fileID: 655999200}
-  - component: {fileID: 655999199}
   m_Layer: 5
   m_Name: NamePickerCanvas
   m_TagString: Untagged
@@ -1111,18 +1110,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &655999199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 655999197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32d3287c37f0c0444a6627ede937405c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &655999200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1404,7 +1391,6 @@ GameObject:
   - component: {fileID: 822872594}
   - component: {fileID: 822872593}
   - component: {fileID: 822872592}
-  - component: {fileID: 822872591}
   m_Layer: 5
   m_Name: NamePickerCanvas [OLD]
   m_TagString: Untagged
@@ -1436,18 +1422,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &822872591
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 822872589}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32d3287c37f0c0444a6627ede937405c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &822872592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3247,8 +3221,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Please choose a name:'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: be2cbf427329fac4fa055ba484bb1b45, type: 2}
-  m_sharedMaterial: {fileID: 618406866484026893, guid: be2cbf427329fac4fa055ba484bb1b45, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1b8da49842c55bc429738db128e5de2a, type: 2}
+  m_sharedMaterial: {fileID: 2063246457229737967, guid: 1b8da49842c55bc429738db128e5de2a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3715,7 +3689,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224130951485110974, guid: 9ed2a051c32b4fe47a5e4fb95c20b03f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000030517578
+      value: 0.000015258789
       objectReference: {fileID: 0}
     - target: {fileID: 224166536479716514, guid: 9ed2a051c32b4fe47a5e4fb95c20b03f, type: 3}
       propertyPath: m_AnchorMax.y
@@ -4331,6 +4305,34 @@ PrefabInstance:
     - target: {fileID: 1925680801307482, guid: bc704a56b873f0442af9045bdde3ab0e, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114211387533369984, guid: bc704a56b873f0442af9045bdde3ab0e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114211387533369984, guid: bc704a56b873f0442af9045bdde3ab0e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114211387533369984, guid: bc704a56b873f0442af9045bdde3ab0e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2050066670}
+    - target: {fileID: 114211387533369984, guid: bc704a56b873f0442af9045bdde3ab0e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114211387533369984, guid: bc704a56b873f0442af9045bdde3ab0e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: onNamePick
+      objectReference: {fileID: 0}
+    - target: {fileID: 114211387533369984, guid: bc704a56b873f0442af9045bdde3ab0e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: NamePickerButtonManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 114211387533369984, guid: bc704a56b873f0442af9045bdde3ab0e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 114501405313491312, guid: bc704a56b873f0442af9045bdde3ab0e, type: 3}
       propertyPath: m_Color.a

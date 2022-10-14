@@ -1,5 +1,3 @@
-using System;
-using Unity.Netcode;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
@@ -7,7 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace StarterAssets
 {
-	public class StarterAssetsInputs : NetworkBehaviour
+	public class StarterAssetsInputs : MonoBehaviour
 	{
 		[Header("Character Input Values")]
 		public Vector2 move;
@@ -46,8 +44,7 @@ namespace StarterAssets
 			SprintInput(value.isPressed);
 		}
 #endif
-
-
+		
 		public void MoveInput(Vector2 newMoveDirection)
 		{
 			move = newMoveDirection;
@@ -86,18 +83,6 @@ namespace StarterAssets
 		// 	
 		// 	cursorLocked = !cursorLocked;
 		// 	SetCursorState(cursorLocked);
-		// }
-
-		// private void Start()
-		// {
-		// 	if (IsOwner) 
-		// 		return;
-		// 	
-		// 	PlayerInput playerInput = GetComponent<PlayerInput>();
-		// 	
-		// 	if (playerInput) playerInput.enabled = false;
-		// 	
-		// 	enabled = false;
 		// }
 	}
 	

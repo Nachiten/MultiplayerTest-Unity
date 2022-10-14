@@ -5,23 +5,22 @@ using UnityEngine.UI;
 
 public class NamePickerButtonManager : MonoBehaviour
 {
-    
     [SerializeField] private TMP_InputField inputField;
     [SerializeField] private GameObject namePickerCanvas;
     
-    private Button button;
+    private Button namePickerButton;
 
     private void Awake()
     {
-        button = GetComponent<Button>();
+        namePickerButton = GetComponent<Button>();
     }
 
     private void Start()
     {
-        button.onClick.AddListener(OnButtonClick);
+        namePickerButton.onClick.AddListener(OnNamePick);
     }
 
-    private void OnButtonClick()
+    private void OnNamePick()
     {
         namePickerCanvas.SetActive(false);
         NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerLabelManager>().setPlayerName(inputField.text);
